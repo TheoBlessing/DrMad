@@ -1,5 +1,6 @@
 import { items, shopusers, bankaccounts, transactions } from './data'
 import {v4 as uuidv4} from 'uuid'
+import bcrypt from 'bcryptjs'
 /* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
   Dans certains cas, ces fonctions vont avoir des paramètres afin de filtrer les données qui se trouvent dans data.js
@@ -8,23 +9,41 @@ import {v4 as uuidv4} from 'uuid'
   Exemple 1 : se loguer auprès de la boutique
  */
 function shopLogin(data) {
-  if ((!data.login) || (!data.password)) return {error: 1, status: 404, data: 'aucun login/pass fourni'}
-  // pour simplifier : test uniquement le login
-  let user = shopusers.find(e => e.login === data.login)
-  if (!user) return {error: 1, status: 404, data: 'login/pass incorrect'}
-  // générer un uuid de session pour l'utilisateur si non existant
-  if (!user.session) {
-    user.session = uuidv4()
+  console.log("Tentative de connexion...");
+
+  if (!data.login || !data.password) {
+    return { error: 1, status: 404, data: 'Login ou mot de passe manquant' };
   }
-  // retourne uniquement les champs nécessaires
+
+  // Recherche de l'utilisateur dans les données
+  let user = shopusers.find(e => e.login === data.login);
+
+  if (!user) {
+    return { error: 1, status: 404, data: 'Login ou mot de passe incorrect' };
+  }
+
+  // Vérification du mot de passe avec bcryptjs
+  if (!bcrypt.compareSync(data.password, user.password)) {
+    return { error: 1, status: 404, data: 'Login ou mot de passe incorrect' };
+  }
+
+  console.log('Login réussi');
+
+  // Si la session n'existe pas, on la crée
+  if (!user.session) {
+    user.session = uuidv4(); // Générer un UUID pour la session
+  }
+
+  // Retour des informations essentielles de l'utilisateur
   let u = {
     _id: user._id,
     name: user.name,
     login: user.login,
     email: user.email,
     session: user.session
-  }
-  return {error: 0, status: 200, data: u}
+  };
+
+  return { error: 0, status: 200, data: u };
 }
 
 function getAllViruses() {

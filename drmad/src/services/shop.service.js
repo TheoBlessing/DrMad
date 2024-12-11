@@ -28,11 +28,13 @@ async function shopLogin(data) {
   try {
     // changer la méthode appelée quand cette fonctionnalité l'API est prête
     response = await shopLoginFromLocalSource(data)
+    console.log(response)
   }
     // NB: le catch n'aura lieu que pour des requête vers l'API, s'il y a une erreur réseau
   catch(err) {
     response = {error: 1, status: 404, data: 'erreur réseau, impossible de se loguer'  }
   }
+  console.log(this.$router);
   return response
 }
 
