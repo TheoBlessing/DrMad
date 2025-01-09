@@ -1,76 +1,65 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import VirusesView from '../views/VirusesView.vue'
+import shopView from '../views/ShopView.vue'
 
-// Importations statiques
-import VirusesView from '../views/VirusesView.vue';
-import ShopView from '../views/ShopView.vue';
-import shopLogin from '../views/ShopLoginView.vue'
-
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/shop',
+    name: 'shopMain',
+    component: shopView
+  },
+  {
     path: '/shop/items',
-    name: 'shopitems',
-    component: VirusesView,
+    name: 'shopItems',
+    component: VirusesView
   },
   {
     path: '/shop/login',
-    name: 'shoplogin',
-    component: shopLogin,
+    name: 'shopLogin',
+    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
+    component: () => import('../views/ShopLogin.vue')
   },
-
-
+  {
+    path: '/shop/home',
+    name: 'shopHome',
+    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
+    component: () => import('../views/ShopHome.vue'),
+    alias: '/shop'
+  },
+  {
+    path: '/shop/buy',
+    name: 'shopBuy',
+    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
+    component: () => import('../views/ShopBuy.vue')
+  },
+  {
+    path: '/shop/pay/:orderId',
+    name: 'shopPay',
+    props: true,
+    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
+    component: () => import('../views/ShopPay.vue')
+  },
+  {
+    path: '/shop/orders',
+    name: 'shopOrders',
+    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
+    component: () => import('../views/ShopOrders.vue')
+  },
   {
     path: '/bank/account',
-    name: 'bankaccount',
-    component: () => import('../views/BankAccountView.vue'),
-  },
-  {
-    path: '/shop',
-    component: ShopView,
-    children: [
-      {
-        path: 'home',
-        alias: '',
-        name: 'shophome',
-        components: {
-          shopmain: () => import('../views/ShopHome.vue'),
-        },
-      },
-
-      {
-        path: 'buy',
-        name: 'shopbuy',
-        components: {
-          shopmain: () => import('../views/ShopBuy.vue'),
-        },
-      },
-      {
-        path: 'pay/:orderId',
-        name: 'shoppay',
-        components: {
-          shopmain: () => import('../views/ShopPay.vue'),
-        },
-        props: {
-          shopmain: true,
-        },
-      },
-      {
-        path: 'orders',
-        name: 'shoporders',
-        components: {
-          shopmain: () => import('../views/ShopOrders.vue'),
-        },
-      }
-    ],
-  },
-];
+    name: 'bankAccount',
+    // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
+    component: () => import('../views/BankAccountView.vue')
+  }
+]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes,
-});
+  routes
+})
 
-export default router;
+export default router

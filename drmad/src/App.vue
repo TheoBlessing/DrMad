@@ -1,39 +1,70 @@
 <template>
   <div id="app">
-    <NavBar :titles="titles" @menu-clicked="goTo($event)"></NavBar>
-
-    <h1>Welcome to DrMad app</h1>
-
-    <router-view/>
+    <NavBar :items=items @menu-clicked="redirect($event)" class="navbar" />
+    <router-view></router-view>
   </div>
+
 </template>
 
 <script>
 
-import NavBar from "@/components/NavBar";
+import { mapActions } from 'vuex'
+import NavBar from './components/NavBar.vue';
+import router from './router';
 
 export default {
   name: 'App',
-  components: {NavBar},
+
+  components: {
+    NavBar,
+  },
   data: () => ({
-    titles: [ {text:'Virus', color: 'blue'},
-      {text:'Compte bancaire', color: 'red'},
-      {text:'Login', color: 'green'},
-    ],
-    currentIndex: -1
+    //Data for the navbar :
+    items: [
+      { text: 'Viruses', color: 'red' },
+      { text: 'Compte Bancaire', color: 'blue' },
+      { text: 'Shop', color: 'purple' },
+      { text: 'Login', color: 'green' }
+    ]
   }),
   methods: {
-    goTo(index) {
-      if (index == 0) {
-        this.$router.push('/shop/items')
-      }
-      else if (index == 1) {
-        this.$router.push('/bank/account')
-      }
-      else if (index == 2) {
-        this.$router.push('/shop/login')
-      }
+    ...mapActions('shop', ['getAllViruses']),
+    redirect(index) {
+      let redirections = ["/shop/items", "/bank/account", "/shop/buy", "/shop/login"]
+      router.push(redirections[index]).catch(() => { })
     }
   },
+  mounted() {
+    this.getAllViruses()
+  }
 };
 </script>
+
+<style scoped>
+/* General Styles */
+* {
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #ccc;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* App Container */
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #007bff;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid #0056b3;
+}
+</style>

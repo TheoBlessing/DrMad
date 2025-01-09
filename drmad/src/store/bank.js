@@ -1,49 +1,48 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import BankService from '../services/bankaccount.service';
 
-Vue.use(Vuex)
-import BankAccountService from '../services/bankaccount.service'
-export default({
-    state: () => ({
-        accountAmount: 0,
-        accountTransactions: [],
-        accountNumberError: 0,
-    }),
-    mutations: {
-        updateAccountAmount(state, amount) {
-            state.accountAmount = amount
-        },
-        updateAccountTransactions(state, transactions) {
-            state.accountTransactions = transactions
-        },
-        updateAccountNumberError(state, error) {
-            state.accountNumberError = error
-        }
+export default {
+  namespaced : true,
+  state: () => ({
+    accountAmount: 0,
+    accountTransactions: [],
+    accountNumberError: 0,
+  }),
+  mutations: {
+    updateAccountAmount(state, amount) {
+      state.accountAmount = amount;
     },
-    actions: {
-        async getAccountAmount({commit}, number) {
-            console.log('get account amount');
-            let response = await BankAccountService.getAccountAmount(number)
-            if (response.error === 0) {
-                commit('updateAccountAmount', response.data)
-                commit('updateAccountNumberError', 1)
-            }
-            else {
-                console.log(response.data)
-                commit('updateAccountNumberError', -1)
-            }
-        },
-        async getAccountTransactions({commit}, number) {
-            console.log('get account transactions');
-            let response = await BankAccountService.getAccountTransactions(number)
-            if (response.error === 0) {
-                commit('updateAccountTransactions', response.data)
-                commit('updateAccountNumberError', 1)
-            }
-            else {
-                console.log(response.data)
-                commit('updateAccountNumberError', -1)
-            }
-        },
-    }
-})
+    updateAccountTransactions(state, transactions) {
+      state.accountTransactions = transactions;
+    },
+    updateAccountNumberError(state, status) {
+      state.accountNumberError = status;
+    },
+    reset(state) {
+      state.accountAmount = 0;
+      state.accountTransactions = [];
+      state.accountNumberError = 0;
+    },
+  },
+  actions: {
+    async getAccountAmount({ commit }, number) {
+      const response = await BankService.getAccountAmount(number);
+      if (response.error === 0) {
+        commit('updateAccountNumberError', 1);
+        commit('updateAccountAmount', response.data);
+      } else {
+        commit('updateAccountNumberError', -1);
+        console.error(response.data);
+      }
+    },
+    async getAccountTransactions({ commit }, number) {
+      const response = await BankService.getAccountTransactions(number);
+      if (response.error === 0) {
+        commit('updateAccountNumberError', 1);
+        commit('updateAccountTransactions', response.data);
+      } else {
+        commit('updateAccountNumberError', -1);
+        console.error(response.data);
+      }
+    },
+  },
+}

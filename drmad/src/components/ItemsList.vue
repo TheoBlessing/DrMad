@@ -1,5 +1,5 @@
 <template>
-  <div class="virus-wrapper">
+  <div class="list-wrapper">
     <h2 class="filter-title">Filtres :</h2>
     <table class="filter-table">
       <tr>
@@ -30,55 +30,38 @@
       </tr>
     </table>
     <hr />
-    <table class="virus-table">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Prix</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(virus, index) in filterViruses" :key="index">
-          <td>{{ virus.name }}</td>
-          <td>{{ virus.price }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <h1 class="virus-title">Viruses</h1>
-    <CheckedList
-      @list-button-clicked="flashItems"
-      @item-button-clicked="flashItem($event)"
-      @checked-change="changeSelected($event)"
-      :data="filterViruses"
-      :fields="fields"
-      :itemCheck="itemCheck"
-      :checked="checked"
-      :itemButton="itemButton"
-      :listButton="listButton"
-    />
+    <h1>Viruses</h1>
+    <CheckedList @list-button-clicked="flashItems()" @item-button-clicked="addToCart($event)"
+      @checked-change="changeSelected($event)" @checked-all-changed="changeAllSelected($event)" :data=filterViruses
+      :fields=fields :itemCheck=itemCheck :checked=checked :itemButton=itemButton :listButton=listButton
+      :itemAmount=itemAmount />
   </div>
 </template>
 
 <script>
 
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import CheckedList from '../components/CheckedList.vue';
 
 export default {
-  name: 'VirusesView',
+  name: 'ItemList',
   components: {
     CheckedList
   },
   data: () => ({
     priceFilter: 0,
     nameFilter: '',
+    globalChecked: false,
     stockFilter: true,
     filterPriceActive: false,
     filterNameActive: false,
     filterStockActive: false,
+    itemAmount: true,
     fields: [
       "name",
-      "description"
+      "price",
+      ['promotion', ['discount', 'amount']],
+      "stock"
     ],
     itemCheck: true,
     selected: [],
@@ -95,7 +78,7 @@ export default {
       for (let i = 0; i < this.viruses.length; i++) {
         itemButton.push({
           show: true,
-          text: "details",
+          text: "Add to cart",
           color: "blue"
         })
       }
@@ -105,9 +88,9 @@ export default {
       if (!this.filterPriceActive)
         return this.viruses
       let price = parseInt(this.priceFilter)
-      if (isNaN(price)) 
+      if (isNaN(price))
         return []
-      if (price > 0) 
+      if (price > 0)
         return this.viruses.filter(v => v.price < price)
       return this.viruses
     },
@@ -152,6 +135,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions('shop', ['addItemToBasket']),
     flashItems() {
       let s = ""
       for (let i = 0; i < this.viruses.length; i++) {
@@ -161,9 +145,10 @@ export default {
       }
       alert(s)
     },
-    flashItem(index) {
-      let v = this.filterViruses[index]
-      alert("Virus : " + v.name + "\nStock : " + v.stock + "\nEtat : " + (v.sold ? "en vente" : "indisponible"))
+    addToCart(data) {
+      let virus = this.filterViruses[data.id]
+      let result = { "virus": virus, "amount": data.amount }
+      this.addItemToBasket(result)
     },
     changeSelected(index) {
       let v = this.filterViruses[index]
@@ -175,35 +160,55 @@ export default {
           this.selected.splice(this.selected.indexOf(idInList), 1)
         }
       }
+    },
+    changeAllSelected() {
+      this.globalChecked = !this.globalChecked
+      if(this.globalChecked) {
+        for (let i = 0; i < this.viruses.length; i++) {
+          if (!this.selected.includes(i)) {
+            this.selected.push(i)
+          }
+        }
+      } else {
+        this.selected = []
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-/* Wrapper général */
-.virus-wrapper {
+/* General Layout */
+.list-wrapper {
+  margin: 20px auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  max-width: 1000px;
-  margin: 30px auto;
+  max-width: 900px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
 }
 
-/* Titre des filtres */
+.list-wrapper:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Title Styling */
 .filter-title {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   margin-bottom: 15px;
   color: #333;
   font-weight: bold;
+  text-align: center;
 }
 
-/* Table des filtres */
+/* Filter Table */
 .filter-table {
   width: 100%;
   margin-bottom: 20px;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 15px;
 }
 
 .filter-table td {
@@ -212,147 +217,64 @@ export default {
 }
 
 .filter-group {
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .filter-group label {
+  display: block;
   font-size: 0.9rem;
   color: #555;
+  margin-bottom: 5px;
 }
 
-/* Champs de filtre */
 input[type="text"],
 input[type="number"] {
   width: 100%;
   padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus {
-  border-color: #4CAF50;
   outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 input[type="checkbox"] {
-  margin-left: 5px;
+  margin: 0 5px 0 0;
   cursor: pointer;
 }
 
-/* Ligne horizontale de séparation */
+/* Separator */
 hr {
   margin: 20px 0;
   border: 0;
   border-top: 1px solid #ddd;
 }
 
-/* Table des virus */
-.virus-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 30px;
-}
-
-.virus-table th,
-.virus-table td {
-  padding: 12px;
-  text-align: left;
-  border: 1px solid #ddd;
-  font-size: 1rem;
-}
-
-.virus-table th {
-  background-color: #f4f4f4;
-  font-weight: bold;
-  color: #333;
-}
-
-.virus-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.virus-table tbody tr:hover {
-  background-color: #f1f1f1;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* Titre des virus */
-.virus-title {
-  font-size: 1.8rem;
-  margin-top: 30px;
-  color: #333;
-  text-align: center;
-  font-weight: bold;
-}
-
-/* Boutons */
-button {
-  padding: 12px 20px;
-  margin: 10px 5px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:disabled {
-  background-color: #ddd;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Animation bouton */
-button:enabled:hover {
-  transform: translateY(-2px);
-}
-
-button:enabled:active {
-  background-color: #3e8e41;
-  transform: translateY(0);
-}
-
-/* Responsivité */
+/* Responsiveness */
 @media (max-width: 768px) {
+  .list-wrapper {
+    padding: 15px;
+  }
+
   .filter-title {
-    font-size: 1.3rem;
-  }
-
-  .filter-table td {
-    display: block;
-    width: 100%;
-    padding: 8px 0;
-  }
-
-  .virus-title {
     font-size: 1.5rem;
   }
 
-  .virus-table th,
-  .virus-table td {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .virus-wrapper {
-    padding: 15px;
-    max-width: 100%;
+  .filter-table {
+    font-size: 0.9rem;
+    border-spacing: 10px;
   }
 
   input[type="text"],
   input[type="number"] {
     font-size: 0.9rem;
-  }
-
-  button {
-    font-size: 14px;
-    width: 100%;
   }
 }
 </style>
