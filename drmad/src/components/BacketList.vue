@@ -122,81 +122,65 @@ export default {
 </script>
 
 <style scoped>
-/* Container Styles */
 .basket-wrapper {
-  max-width: 800px;
   padding: 20px;
   margin: 20px auto;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease-in-out;
+  transition: ease-in-out 0.1s;
 }
 
 .basket-wrapper:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: ease-in-out 0.1s;
 }
 
-/* Heading Styles */
 .basket-wrapper h2 {
   font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  text-align: center;
   margin-bottom: 20px;
+  color: #333;
 }
 
-/* Button Styles */
-button {
+.addOrder-button {
   display: inline-block;
   margin: 10px 5px;
   padding: 10px 20px;
-  font-size: 16px;
-  font-weight: 600;
+  background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
-}
-
-/* Specific Buttons */
-.addOrder-button {
-  background-color: #007bff;
+  transition: background-color 0.3s;
 }
 
 .buy-button {
+  display: inline-block;
+  margin: 10px 5px;
+  padding: 10px 20px;
   background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .addOrder-button:enabled:hover {
   background-color: #0056b3;
-  transform: scale(1.05);
 }
 
 .buy-button:enabled:hover {
   background-color: #218838;
-  transform: scale(1.05);
 }
 
-/* Disabled Buttons */
 button:disabled {
-  background-color: #ccc;
-  color: #666;
-  cursor: not-allowed;
+    background-color: #ddd;
+    cursor: not-allowed;
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-  .basket-wrapper {
-    padding: 15px;
-  }
 
-  button {
-    width: 100%;
-    margin: 8px 0;
-    font-size: 14px;
-  }
-}
 </style>

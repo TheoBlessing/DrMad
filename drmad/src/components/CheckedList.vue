@@ -40,9 +40,9 @@
           </td>
           <td v-if="itemAmount">
             <input
-              type="number"
-              v-model.number="amounts[item_id]"
-              class="amount-input"
+                type="number"
+                v-model.number="amounts[item_id]"
+                class="amount-input"
             />
           </td>
           <td>
@@ -58,6 +58,7 @@
         </tr>
       </tbody>
     </table>
+
     <button
       v-if="listButton.show"
       @click="listButtonClicked()"
@@ -66,6 +67,7 @@
     >
       {{ listButton.text }}
     </button>
+
   </div>
 </template>
 
@@ -86,7 +88,23 @@ export default {
       amounts: {},
     };
   },
+  watch: {
+    data: {
+      immediate: true, // Appeler dès que `data` est initialisée
+      handler(newData) {
+        this.initializeAmounts(newData); // Initialiser les valeurs par défaut
+      }
+    }
+  },
   methods: {
+    initializeAmounts(data) {
+      // Définir une valeur par défaut de 1 pour chaque élément dans `amounts`
+      data.forEach((item, index) => {
+        if (!Object.prototype.hasOwnProperty.call(this.amounts, index)) {
+          this.$set(this.amounts, index, 1);
+        }
+      });
+    },
     itemButtonClicked(item_id) {
       if (this.itemAmount) {
         const amount = this.amounts[item_id] || 0;
@@ -102,74 +120,60 @@ export default {
       } else {
         this.$emit('list-button-clicked');
       }
-    }
+    },
+
+  },
+  mounted() {
+    this.initializeAmounts(this.data); // Initialiser `amounts` lorsque le composant est monté
   }
 };
 </script>
 
 <style scoped>
-/* Wrapper Styles */
 .list-wrapper {
-  max-width: 1000px;
   padding: 20px;
-  margin: 20px auto;
+  margin: 0 auto;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease-in-out;
+  transition: ease-in-out 0.1s;
 }
 
 .list-wrapper:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: ease-in-out 0.1s;
 }
 
-/* Table Styles */
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
-  color: #333;
+  border: 1px solid #ddd;
 }
 
-.table th,
-.table td {
+.table th, .table td {
   padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
-
-.table th {
+table th {
   background-color: #f1f1f1;
-  font-weight: bold;
-  text-transform: uppercase;
 }
 
-.table td {
-  vertical-align: top;
+.checkbox {
+  margin: 0 auto;
 }
 
 .table-item-detail {
   margin: 5px 0;
-  font-size: 12px;
-  color: #555;
+  font-size: small;
 }
 
-/* Checkbox Styles */
-.checkbox {
-  display: block;
-  margin: 0 auto;
-  cursor: pointer;
-}
-
-/* Input Styles */
 .amount-input {
   width: 100%;
   padding: 5px;
-  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .amount-input:focus {
@@ -178,26 +182,17 @@ export default {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Button Styles */
-button {
-  padding: 8px 15px;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
-}
-
 .action-button {
+  padding: 5px 10px;
   background-color: transparent;
-  border: 1px solid #333;
-  color: #333;
+  border: 1px solid;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .action-button:hover {
-  background-color: #333;
-  color: #fff;
-  transform: scale(1.05);
+  opacity: 0.8;
 }
 
 .info-button {
@@ -206,33 +201,12 @@ button {
   background-color: #007bff;
   color: white;
   border: none;
+  border-radius: 5px;
   font-size: 16px;
+  cursor: pointer;
 }
 
 .info-button:hover {
   background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .list-wrapper {
-    padding: 15px;
-  }
-
-  .table {
-    font-size: 12px;
-  }
-
-  button {
-    padding: 6px 10px;
-    font-size: 12px;
-  }
-
-  .info-button {
-    font-size: 14px;
-    width: 100%;
-  }
 }
 </style>
-

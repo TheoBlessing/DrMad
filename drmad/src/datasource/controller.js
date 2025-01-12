@@ -2,13 +2,8 @@ import { items, shopusers, transactions } from './data'
 import { v4 as uuidv4 } from 'uuid'
 import { bankaccounts } from './data'
 import bcrypt from 'bcryptjs'
-/* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
-  Dans certains cas, ces fonctions vont avoir des paramètres afin de filtrer les données qui se trouvent dans data.js
-  Ces paramètres sont généralement les mêmes qu'ils faudrait envoyer à l'API, mais pas forcément.
 
-  Exemple 1 : se loguer auprès de la boutique
- */
 
 function shopLogin(data) {
   if ((!data.login) || (!data.password)) return { error: 1, status: 404, data: 'aucun login/pass fourni' }
@@ -163,28 +158,7 @@ function addOrderByUserId(data) {
   return { error: 1, status: 404, data: 'no users found' }
 }
 
-function validateOrderByID(data) {
-  let user_id = data.user_id
-  let order_id = data.order_id
-  if(user_id == null || user_id == ""){
-    return
-  }
-  if(order_id == null || order_id == ""){
-    return
-  }
-  for(let i = 0; i < shopusers.length; i++){
-    if(shopusers[i]["_id"] === user_id){
-      for(let j = 0; j < shopusers[i]["orders"].length; j++){
-        if(shopusers[i]["orders"][j]["uuid"] === order_id){
-          shopusers[i]["orders"][j]["status"] = "finalized"
-          return { error: 0, status: 200, data: shopusers[i]["orders"][j] }
-        }
-      }
-    }
-  }
-  console.log("no corresponding user/order found")
-  return { error: 1, status: 404, data: 'no users found' }
-}
+
 
 function getOrdersByUserId(data){
   let user_id = data.user_id
@@ -224,6 +198,82 @@ function cancelOrderById(data){
   return { error: 1, status: 404, data: 'no order found' }
 }
 
+function payOrders(data){
+  let user_id = data.user_id;
+  let order_id = data.order_id;
+  let transactionId = data.transactionId;
+  let coutTotal = 0;
+  let amount = 0;
+
+  if (!user_id || !order_id || !transactionId) {
+    return { error: 1, status: 400, data: "Champs requis manquants" };
+  }
+
+  // Vérification de la transaction
+  let transactionFound = false;
+  for (let i = 0; i < transactions.length; i++) {
+    if (transactions[i]["uuid"] === transactionId) {
+      transactionFound = true;
+
+      if (transactions[i]["destination"] !== "65d721c44399ae9c8321832c") {
+        return { error: 1, status: 400, data: "Destination de transaction invalide" };
+      }
+
+      amount = transactions[i]["amount"];
+      if (amount > 0) {
+        return { error: 1, status: 400, data: "Le montant de la transaction doit être négatif" };
+      }
+
+      break;
+    }
+  }
+
+  if (!transactionFound) {
+    return { error: 1, status: 404, data: "Transaction introuvable" };
+  }
+
+  // Recherche de l'utilisateur
+  let userFound = false;
+  for (let i = 0; i < shopusers.length; i++) {
+    if (shopusers[i]["_id"] === user_id) {
+      userFound = true;
+
+      // Recherche de la commande
+      let orderFound = false;
+      for (let j = 0; j < shopusers[i]["orders"].length; j++) {
+        if (shopusers[i]["orders"][j]["uuid"] === order_id) {
+          orderFound = true;
+
+          coutTotal = shopusers[i]["orders"][j]["total"];
+          if (coutTotal + amount !== 0) {
+            return { error: 1, status: 400, data: "La transaction ne solde pas le total de la commande ou est trop élever" };
+          }
+
+          // Finaliser la commande
+          shopusers[i]["orders"][j]["status"] = "finalized";
+          return { error: 0, status: 200, data: shopusers[i]["orders"][j] };
+        }
+      }
+
+      if (!orderFound) {
+        return { error: 1, status: 404, data: "Commande introuvable" };
+      }
+
+      break;
+    }
+  }
+
+  if (!userFound) {
+    return { error: 1, status: 404, data: "Utilisateur introuvable" };
+  }
+
+  return { error: 1, status: 500, message: "Erreur inconnue" };
+
+}
+
+
+
+
 export default {
   shopLogin,
   getAllViruses,
@@ -232,7 +282,7 @@ export default {
   getBasketById,
   updateBasketById,
   addOrderByUserId,
-  validateOrderByID,
   getOrdersByUserId,
-  cancelOrderById
+  cancelOrderById,
+  payOrders
 }

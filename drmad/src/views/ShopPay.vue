@@ -2,9 +2,12 @@
     <div class="shop-pay">
         <h2>Payer une commande</h2>
         <div>
-            <label for="order-id">ID de la commande :</label>
+            <label for="order-id">UUID de la commande :</label>
             <input type="text" id="order-id" v-model="currentOrderId"
                 :placeholder="currentOrderId ? '' : 'Saisissez l\'ID de la commande'" />
+          <label> Prix total: </label>
+          <label for="order-id">UUID transaction :</label>
+          <input type="text" id="transation-id" v-model="transactionsID">
         </div>
         <button @click="payOrder">Payer</button>
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
@@ -15,6 +18,7 @@
 import { mapState } from 'vuex';
 import ShopService from '../services/shop.service';
 
+
 export default {
     name: 'ShopPay',
     props: {
@@ -23,7 +27,8 @@ export default {
     data() {
     return {
       currentOrderId: this.orderId || '',
-      errorMessage: ''
+      errorMessage: '',
+      transactionsID: ''
     };
   },
     computed: {
@@ -39,11 +44,15 @@ export default {
 
             let data= {
                 order_id: this.currentOrderId,
-                user_id: this.shopUser._id
+                user_id: this.shopUser._id,
+                transactionId: this.transactionsID
             };
 
-            let response = await ShopService.validateOrderByID(data);
+            console.log(data)
 
+            let response = await ShopService.payOrders(data);
+            console.log("debug")
+            console.log(response.data.status)
             if(response.data.status === "finalized") {
                 this.$router.push({ name: 'shopOrders' });
             } else {

@@ -4,7 +4,7 @@
       <li v-for="(item, index) in items" :key="index" class="navbar-item">
         <button
             class="navbar-button"
-            @click="$emit('menu-clicked', index)"
+            @click="handleClick(index, item)"
             :style="{ color: item.color }"
         >
           {{ item.text }}
@@ -23,70 +23,58 @@ export default {
       required: true,
     },
   },
+  methods: {
+    handleClick(index, item) {
+      if (item.action) {
+        this.$emit('action-clicked', item.action); // Émet un événement pour les actions spécifiques
+      } else {
+        this.$emit('menu-clicked', index); // Émet un événement pour la navigation
+      }
+    },
+  },
 };
 </script>
 
+
+
 <style scoped>
 .navbar {
-  background-color: #f8f9fa;
-  padding: 10px 20px;
-  border-bottom: 2px solid #ddd;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease-in-out;
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+    border-bottom: 2px solid #ddd;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: ease-in-out 0.1s;
 }
 
 .navbar:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: ease-in-out 0.1s;
 }
 
 .navbar-list {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 20px;
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar-item {
-  margin: 0;
+    margin: 0 10px;
 }
 
 .navbar-button {
-  background-color: transparent;
-  border: 2px solid transparent;
-  border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 16px;
-  color: inherit;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s, border-color 0.3s, transform 0.2s ease;
+    background-color: transparent;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .navbar-button:hover {
-  background-color: #e7e7e7;
-  border-color: #bbb;
-  transform: translateY(-2px);
-}
-
-.navbar-button:focus {
-  outline: 2px solid #007bff;
-  border-color: #007bff;
-  background-color: #f0f8ff;
-}
-
-@media (max-width: 768px) {
-  .navbar-list {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .navbar-button {
-    font-size: 14px;
-    padding: 8px 10px;
-  }
+    background-color: #e7e7e7;
+    border-color: #ccc;
 }
 </style>

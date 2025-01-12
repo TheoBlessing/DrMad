@@ -38,9 +38,11 @@ async function addOrderByUserIdFromLocalSource(data) {
   return LocalSource.addOrderByUserId(data)
 }
 
-async function validateOrderByIDFromLocalSource(data) {
+async function payOrders(data) {
   // recuperation aupres de la source locale
-  return LocalSource.validateOrderByID(data)
+  console.log("service")
+  console.log(data)
+  return LocalSource.payOrders(data)
 }
 
 async function getOrdersByUserIdFromLocalSource(data) {
@@ -123,18 +125,7 @@ async function addOrderByUserId(data) {
   return response
 }
 
-async function validateOrderByID(data) {
-  let response = null;
-  try {
-    // changer la méthode appelee quand cette fonctionnalite de l'API est prete
-    response = await validateOrderByIDFromLocalSource(data)
-  }
-  // NB: le catch n'aura lieu que pour des requete vers l'API, s'il y a une erreur reseau
-  catch (err) {
-    response = { error: 1, status: 404, data: 'erreur reseau, impossible de recuperer la commande' }
-  }
-  return response  
-}
+
 
 async function getOrdersByUserId(data) {
   let response = null;
@@ -168,7 +159,7 @@ export default {
   getBasketById,
   updateBasketById,
   addOrderByUserId,
-  validateOrderByID,
+  payOrders,
   getOrdersByUserId,
   cancelOrderById
 }

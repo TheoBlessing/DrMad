@@ -16,7 +16,10 @@ export default ({
     },
     updateBasket(state, basket) {
       state.basket = basket;
-    }
+    },
+    clearShopUser(state) {
+      state.shopUser = null;
+    },
   },
   actions: {
     // Connexion d'un utilisateur
@@ -29,6 +32,10 @@ export default ({
         console.log(response.data)
       }
       return response
+    },
+    async shopLogout({ commit }) {
+      commit('clearShopUser');
+      commit('updateBasket', []); // Nettoyer le panier à la déconnexion
     },
 
     // Récupère tous les virus

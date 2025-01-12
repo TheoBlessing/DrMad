@@ -47,126 +47,76 @@ export default {
 </script>
 
 <style scoped>
-/* Container */
 div {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 /* Title */
 h1 {
-  text-align: center;
-  color: #4CAF50;
-  font-size: 2rem;
-  margin-bottom: 20px;
+    text-align: center;
+    color: #4CAF50;
 }
 
 /* Form Input */
 input {
-  padding: 12px;
-  width: calc(100% - 24px); /* Full width with padding */
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input:focus {
-  border-color: #4CAF50;
-  box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
-  outline: none;
+    padding: 10px;
+    width: calc(100% - 22px); /* Full width with padding */
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
 }
 
 /* Buttons */
 button {
-  padding: 12px 18px;
-  margin: 10px 5px 10px 0;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s, transform 0.2s;
+    padding: 10px 15px;
+    margin: 10px 0;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 button:hover {
-  background-color: #45a049;
-  transform: translateY(-2px);
+    background-color: #45a049;
 }
 
-button:active {
-  background-color: #3e8e41;
-  transform: translateY(0);
-}
-
-/* Error Messages */
+/* Error Message */
 p {
-  font-size: 16px;
-  color: #333;
-  margin: 10px 0;
+    font-size: 16px;
+    color: #333;
 }
 
 p span {
-  font-weight: bold;
-  color: #333;
+    font-weight: bold;
 }
+
 
 /* Invalid Account Error */
 p[v-if="accountNumberError == -1"] {
-  color: #e53935;
-  font-weight: bold;
+    color: red;
+    font-weight: bold;
 }
 
 /* Transaction List */
 ul {
-  padding-left: 20px;
-  margin-top: 10px;
-  border-top: 1px solid #ccc;
-  padding-top: 10px;
+    padding-left: 20px;
+    margin-top: 10px;
 }
 
 li {
-  list-style-type: none;
-  font-size: 14px;
-  margin-bottom: 5px;
-  line-height: 1.5;
+    list-style-type: none;
+    font-size: 14px;
 }
 
 li::before {
-  content: "• ";
-  color: #4CAF50;
-  font-size: 18px;
-}
-
-/* Responsive Design */
-@media (max-width: 480px) {
-  div {
-    padding: 15px;
-  }
-
-  h1 {
-    font-size: 1.5rem;
-  }
-
-  button {
-    padding: 10px 14px;
-    font-size: 14px;
-  }
-
-  input {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  li {
-    font-size: 13px;
-  }
+    content: "• ";
+    color: #4CAF50;
+    font-size: 18px;
 }
 </style>

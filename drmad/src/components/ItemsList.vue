@@ -178,37 +178,31 @@ export default {
 </script>
 
 <style scoped>
-/* General Layout */
 .list-wrapper {
-  margin: 20px auto;
+  margin: 20px;
   padding: 20px;
-  max-width: 900px;
-  background-color: #ffffff;
+  background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease-in-out;
+  transition: ease-in-out 0.1s;
 }
 
 .list-wrapper:hover {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: ease-in-out 0.1s;
 }
 
-/* Title Styling */
 .filter-title {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
   color: #333;
-  font-weight: bold;
-  text-align: center;
 }
 
-/* Filter Table */
 .filter-table {
   width: 100%;
   margin-bottom: 20px;
-  border-collapse: separate;
-  border-spacing: 15px;
+  border-collapse: collapse;
 }
 
 .filter-table td {
@@ -217,64 +211,31 @@ export default {
 }
 
 .filter-group {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .filter-group label {
-  display: block;
   font-size: 0.9rem;
   color: #555;
-  margin-bottom: 5px;
 }
 
 input[type="text"],
 input[type="number"] {
   width: 100%;
-  padding: 8px;
-  font-size: 1rem;
-  color: #333;
+  padding: 5px;
+  margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-input[type="text"]:focus,
-input[type="number"]:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  font-size: 1rem;
 }
 
 input[type="checkbox"] {
-  margin: 0 5px 0 0;
-  cursor: pointer;
+  margin-left: 5px;
 }
 
-/* Separator */
 hr {
   margin: 20px 0;
   border: 0;
   border-top: 1px solid #ddd;
-}
-
-/* Responsiveness */
-@media (max-width: 768px) {
-  .list-wrapper {
-    padding: 15px;
-  }
-
-  .filter-title {
-    font-size: 1.5rem;
-  }
-
-  .filter-table {
-    font-size: 0.9rem;
-    border-spacing: 10px;
-  }
-
-  input[type="text"],
-  input[type="number"] {
-    font-size: 0.9rem;
-  }
 }
 </style>

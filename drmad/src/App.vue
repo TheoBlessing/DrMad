@@ -21,16 +21,14 @@ export default {
   data: () => ({
     //Data for the navbar :
     items: [
-      { text: 'Viruses', color: 'red' },
-      { text: 'Compte Bancaire', color: 'blue' },
-      { text: 'Shop', color: 'purple' },
-      { text: 'Login', color: 'green' }
+      { text: 'Accueil Boutique', color: 'red' },
+      { text: 'Accueil Banque', color: 'blue' },
     ]
   }),
   methods: {
     ...mapActions('shop', ['getAllViruses']),
     redirect(index) {
-      let redirections = ["/shop/items", "/bank/account", "/shop/buy", "/shop/login"]
+      let redirections = ["/shop", "/bank"]
       router.push(redirections[index]).catch(() => { })
     }
   },
