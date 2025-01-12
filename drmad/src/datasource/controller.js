@@ -2,8 +2,14 @@ import { items, shopusers, transactions } from './data'
 import { v4 as uuidv4 } from 'uuid'
 import { bankaccounts } from './data'
 import bcrypt from 'bcryptjs'
+import { ObjectId } from 'bson';
+/* controllers: les fonctions ci-dessous doivent mimer ce que renvoie l'API en fonction des requêtes possibles.
 
+  Dans certains cas, ces fonctions vont avoir des paramètres afin de filtrer les données qui se trouvent dans data.js
+  Ces paramètres sont généralement les mêmes qu'ils faudrait envoyer à l'API, mais pas forcément.
 
+  Exemple 1 : se loguer auprès de la boutique
+ */
 
 function shopLogin(data) {
   if ((!data.login) || (!data.password)) return { error: 1, status: 404, data: 'aucun login/pass fourni' }
@@ -158,7 +164,28 @@ function addOrderByUserId(data) {
   return { error: 1, status: 404, data: 'no users found' }
 }
 
-
+function validateOrderByID(data) {
+  let user_id = data.user_id
+  let order_id = data.order_id
+  if(user_id == null || user_id == ""){
+    return
+  }
+  if(order_id == null || order_id == ""){
+    return
+  }
+  for(let i = 0; i < shopusers.length; i++){
+    if(shopusers[i]["_id"] === user_id){
+      for(let j = 0; j < shopusers[i]["orders"].length; j++){
+        if(shopusers[i]["orders"][j]["uuid"] === order_id){
+          shopusers[i]["orders"][j]["status"] = "finalized"
+          return { error: 0, status: 200, data: shopusers[i]["orders"][j] }
+        }
+      }
+    }
+  }
+  console.log("no corresponding user/order found")
+  return { error: 1, status: 404, data: 'no users found' }
+}
 
 function getOrdersByUserId(data){
   let user_id = data.user_id
@@ -196,6 +223,82 @@ function cancelOrderById(data){
   }
   console.log("no corresponding order found")
   return { error: 1, status: 404, data: 'no order found' }
+}
+function getAccount(data) {
+  const account = bankaccounts.find(acc => acc.number === data);
+
+  if (account) {
+    console.log("Compte trouvé :", account.number);
+    return { error: 0, status: 'success', data: account };
+  }
+
+  console.log("Numéro de compte invalide");
+  return { error: 1, status: 'error', data: 'numéro de compte invalide' };
+}
+
+function getTransactions(data){
+ const transaction = transactions.filter((transaction)=> transaction.account === data);
+  if (transaction.length > 0) {
+    return { error: 0, status: 'success', data: transaction };
+  }
+  return { error: 1, status: 'error', data: 'aucune transaction pour ce compte' };
+}
+
+function createWithdraw(data){
+  const account = bankaccounts.find(acc => acc._id === data.idAccount);
+  if (!account) {
+    return { error: 1, status: 'error', data: 'id de compte invalide' };
+  }
+
+  const newTransaction = {
+    _id: ObjectId().toString(),
+    amount: -data.amount,
+    account: data.idAccount,
+    date: { $date: new Date() },
+    uuid: uuidv4()
+  };
+
+
+  transactions.push(newTransaction)
+  account.amount += -data.amount;
+  return {error: 0, status: 'success', data: { uuid: newTransaction.uuid, amount: account.balance }};
+}
+function createPayment(data){
+  const account = bankaccounts.find((acc) => acc._id === data.idAccount);
+  const dest = bankaccounts.find((acc)=>acc.number === data.destNumber);
+
+  if (!account)
+    return { data: 'id de compte invalide' };
+  else if (!dest)
+    return {data: 'compte destinataire inexistant'}
+
+  const date = {$date: new Date()};
+  const expTransaction = {
+    _id: ObjectId().toString(),
+    amount: -data.amount,
+    account: data.idAccount,
+    date: date,
+    uuid: uuidv4(),
+    destination: dest._id
+  };
+  const destTransaction = {
+    _id: ObjectId().toString(),
+    amount: data.amount,
+    account: data.idAccount,
+    date: date,
+    uuid: uuidv4(),
+  };
+
+  transactions.push(destTransaction, expTransaction);
+  account.balance -= data.amount;
+  dest.balance += data.amount;
+  return {
+    data: {
+      withdraw: { uuid: expTransaction.uuid, amount: account.balance },
+      deposit: { uuid: destTransaction.uuid, amount: dest.balance },
+    },
+  };
+
 }
 
 function payOrders(data){
@@ -284,5 +387,10 @@ export default {
   addOrderByUserId,
   getOrdersByUserId,
   cancelOrderById,
-  payOrders
+  payOrders,
+  cancelOrderById,
+  getAccount,
+  getTransactions,
+  createWithdraw,
+  createPayment,
 }

@@ -47,12 +47,59 @@ const routes = [
     name: 'shopOrders',
     // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
     component: () => import('../views/ShopOrders.vue')
-  },
+  },/*
   {
     path: '/bank/account',
     name: 'bankAccount',
     // import dynamique du composant, plutôt qu'en début de fichier, comme la route prédécente.
     component: () => import('../views/BankAccountView.vue')
+  },*/
+  {
+  path: "/bank",
+    component: ()=> import('../views/BankView.vue'),
+    children: [
+  {
+    path: "",
+    alias: "/bank",
+    name: "bank-home",
+    components: {
+      bankmain:()=>import('../views/BankHome.vue')
+    },
+  },
+  {
+    path: "account",
+    name: "bank-account",
+    components: {
+      bankmain:()=>import('../views/BankAccount.vue')
+    },
+  },
+  {
+    path: "amount",
+    name: "bank-amount",
+    components: {
+      bankmain:()=>import('../views/BankAmount.vue')
+    },
+  },
+  {
+    path: "operation",
+    name: "bank-operation",
+    components: {
+      bankmain:()=>import('../views/BankOperation.vue')
+    },
+  },
+  {
+    path: "history",
+    name: "bank-history",
+    components: {
+      bankmain:()=>import('../views/BankHistory.vue')
+    },
+  },/*
+  {
+    path: "logout",
+    name: "bank-logout",
+    component: BankLogout,
+  },*/
+],
   }
 ]
 
