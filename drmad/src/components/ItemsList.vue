@@ -178,59 +178,60 @@ export default {
 </script>
 
 <style scoped>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 .list-wrapper {
   margin: 20px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: ease-in-out 0.1s;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .list-wrapper:hover {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  transition: ease-in-out 0.1s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .filter-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   margin-bottom: 10px;
   color: #333;
 }
 
-.filter-table {
+.table {
   width: 100%;
-  margin-bottom: 20px;
   border-collapse: collapse;
+  margin-bottom: 15px;
 }
 
-.filter-table td {
-  padding: 10px;
-  vertical-align: top;
+.table td {
+  padding: 8px;
+  vertical-align: middle;
 }
 
-.filter-group {
-  margin-top: 5px;
-}
-
-.filter-group label {
+.label {
+  display: block;
   font-size: 0.9rem;
   color: #555;
+  margin-bottom: 5px;
 }
 
-input[type="text"],
-input[type="number"] {
+.input {
   width: 100%;
-  padding: 5px;
-  margin-top: 5px;
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
+  box-sizing: border-box;
 }
 
-input[type="checkbox"] {
-  margin-left: 5px;
+.checkbox {
+  margin-right: 8px;
 }
 
 hr {

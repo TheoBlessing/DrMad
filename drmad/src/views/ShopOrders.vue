@@ -53,9 +53,9 @@ export default {
     ...mapState('shop', ['shopUser']),
     navItems() {
       return [
-        { text: "Produits", color: "purple", route: "/shop/items" },
-        { text: "Buy", color: "blue", route: "/shop/buy" },
-        { text: "Order", color: "orange", route: "/shop/orders" },
+        { text: "Produits", color: "black", route: "/shop/items" },
+        { text: "Buy", color: "black", route: "/shop/buy" },
+        { text: "Order", color: "black", route: "/shop/orders" },
         {
           text: this.shopUser ? "Logout" : "Login",
           color: this.shopUser ? "red" : "green",
@@ -113,7 +113,7 @@ export default {
 /* General Layout */
 div {
   font-family: Arial, sans-serif;
-  padding: 20px;
+  padding: 15px;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -122,18 +122,18 @@ div {
 h1 {
   text-align: center;
   color: #4CAF50;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 /* Table Styling */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 th, td {
-  padding: 10px;
+  padding: 8px;
   text-align: left;
   border: 1px solid #ddd;
 }
@@ -159,8 +159,8 @@ strong {
 
 /* Order Total and Status */
 div > strong {
-  font-size: 16px;
-  margin-top: 10px;
+  font-size: 14px;
+  margin-top: 8px;
 }
 
 /* Buttons */
@@ -169,33 +169,31 @@ button:disabled {
   cursor: not-allowed;
 }
 
+button {
+  padding: 8px 12px;
+  margin: 8px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
 .pay-button {
-  padding: 10px 15px;
-  margin: 10px 5px;
   background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
 }
 
-.pay-button:enabled:hover {
+.pay-button:hover {
   background-color: #45a049;
 }
 
 .cancel-button {
-  padding: 10px 15px;
-  margin: 10px 5px;
   background-color: #f44336;
   color: white;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
 }
 
-.cancel-button:enabled:hover {
+.cancel-button:hover {
   background-color: #da190b;
 }
 
@@ -215,7 +213,6 @@ div[v-if="order.status === 'waiting_payment'"] {
 
   button {
     width: 100%;
-    font-size: 14px;
   }
 
   div {
@@ -223,3 +220,4 @@ div[v-if="order.status === 'waiting_payment'"] {
   }
 }
 </style>
+

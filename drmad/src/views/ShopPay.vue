@@ -66,21 +66,22 @@ export default {
 
 <style scoped>
 .shop-pay {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .shop-pay h2 {
-    text-align: center;
+  text-align: center;
+  margin-bottom: 15px;
 }
 
 .shop-pay .error {
-    color: red;
-    margin-top: 10px;
-    text-align: center;
+  color: red;
+  margin-top: 10px;
+  text-align: center;
 }
 </style>

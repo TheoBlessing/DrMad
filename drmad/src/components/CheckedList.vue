@@ -130,83 +130,63 @@ export default {
 </script>
 
 <style scoped>
-.list-wrapper {
-  padding: 20px;
-  margin: 0 auto;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: ease-in-out 0.1s;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-.list-wrapper:hover {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  transition: ease-in-out 0.1s;
+.list-wrapper {
+  padding: 20px;
+  margin: 20px auto;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid #ddd;
 }
 
 .table th, .table td {
   padding: 10px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #ddd;
 }
-table th {
+
+.table th {
   background-color: #f1f1f1;
+  font-weight: bold;
 }
 
-.checkbox {
-  margin: 0 auto;
-}
-
-.table-item-detail {
-  margin: 5px 0;
-  font-size: small;
-}
-
-.amount-input {
-  width: 100%;
-  padding: 5px;
+.input {
+  width: calc(100% - 10px);
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-.amount-input:focus {
+.input:focus {
   outline: none;
   border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
 }
 
-.action-button {
-  padding: 5px 10px;
-  background-color: transparent;
-  border: 1px solid;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.action-button:hover {
-  opacity: 0.8;
-}
-
-.info-button {
-  margin-top: 20px;
-  padding: 10px 20px;
+.button {
+  display: inline-block;
+  padding: 8px 15px;
   background-color: #007bff;
-  color: white;
+  color: #fff;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
   cursor: pointer;
+  text-align: center;
 }
 
-.info-button:hover {
+.button:hover {
   background-color: #0056b3;
 }
 </style>

@@ -24,7 +24,7 @@ export default {
     ...mapState('shop', ['shopUser']),
     navItems() {
       return [
-        { text: 'Produits', color: 'purple', route: '/shop/items' },
+        { text: 'Produits', color: 'black', route: '/shop/items' },
         {
           text:'Buy', color: 'black',route: '/shop/buy'
         },
@@ -60,14 +60,27 @@ export default {
 </script>
 
 <style scoped>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 .buy-wrapper {
   padding: 20px;
-  background-color: #f8f9fa;
+  margin: 20px auto;
+  background-color: #fff;
+
+
+  width: 100%;
+
 }
 
 .buy-wrapper h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
   color: #333;
 }
 </style>
+
+

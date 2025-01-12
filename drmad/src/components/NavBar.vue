@@ -4,7 +4,7 @@
       <li v-for="(item, index) in items" :key="index" class="navbar-item">
         <button
             class="navbar-button"
-            @click="$emit('menu-clicked', index)"
+            @click="handleClick(index, item)"
             :style="{ color: item.color }"
         >
           {{ item.text }}
@@ -23,6 +23,15 @@ export default {
       required: true,
     },
   },
+  methods: {
+    handleClick(index, item) {
+      if (item.action) {
+        this.$emit("action-clicked", item.action); // Gérer les actions spécifiques comme Logout
+      } else {
+        this.$emit("menu-clicked", index); // Gérer les clics pour la navigation
+      }
+    },
+  },
 };
 </script>
 
@@ -31,8 +40,7 @@ export default {
   background-color: #f8f9fa;
   padding: 10px 20px;
   border-bottom: 2px solid #ddd;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease-in-out;
+
 }
 
 .navbar:hover {

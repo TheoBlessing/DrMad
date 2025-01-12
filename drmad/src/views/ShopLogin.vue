@@ -61,47 +61,45 @@ export default {
 }
 </script>
 <style scoped>
-.login-wrapper {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
-  transition: ease-in-out 0.1s;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
-.login-wrapper:hover {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  transition: ease-in-out 0.1s;
+.login-wrapper {
+  width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
   color: #333;
 }
 
 .form-group {
   margin-bottom: 15px;
-  padding-right: 20px;
 }
 
 label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
   color: #555;
 }
 
 .form-input {
   width: 100%;
-  padding: 10px;
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .form-input:focus {
@@ -116,8 +114,8 @@ label {
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -126,7 +124,7 @@ label {
 }
 
 .user-info {
-  margin-top: 20px;
+  margin-top: 15px;
   font-size: 14px;
   color: #333;
   text-align: center;
@@ -138,7 +136,8 @@ label {
   background-color: #ffefc4;
   color: #856404;
   border: 1px solid #ffeeba;
-  border-radius: 5px;
+  border-radius: 4px;
   text-align: center;
 }
 </style>
+

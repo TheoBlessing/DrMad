@@ -111,9 +111,9 @@ export default {
     },
     navItems() {
       return [
-        { text: "Produits", color: "purple", route: "/shop/items" },
-        { text: "Buy", color: "blue", route: "/shop/buy" },
-        { text: "Order", color: "orange", route: "/shop/orders" },
+        { text: "Produits", color: "black", route: "/shop/items" },
+        { text: "Buy", color: "black", route: "/shop/buy" },
+        { text: "Order", color: "black", route: "/shop/orders" },
         {
           text: this.shopUser ? "Logout" : "Login",
           color: this.shopUser ? "red" : "green",

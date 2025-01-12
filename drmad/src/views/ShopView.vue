@@ -19,7 +19,7 @@ export default {
     ...mapState('shop', ['shopUser']),
     navItems() {
       return [
-        { text: 'Produits', color: 'purple', route: '/shop/items' },
+        { text: 'Produits', color: 'black', route: '/shop/items' },
         {
           text: this.shopUser ? 'Logout' : 'Login',
           color: this.shopUser ? 'red' : 'green',

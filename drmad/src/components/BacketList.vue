@@ -125,16 +125,14 @@ export default {
 .basket-wrapper {
   padding: 20px;
   margin: 20px auto;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: ease-in-out 0.1s;
+  background-color: #ffffff;
+
+
 }
 
 .basket-wrapper:hover {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  transition: ease-in-out 0.1s;
+
+  transform: translateY(-2px);
 }
 
 .basket-wrapper h2 {
@@ -147,13 +145,13 @@ export default {
   display: inline-block;
   margin: 10px 5px;
   padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #4a90e2;
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .buy-button {
@@ -161,16 +159,16 @@ export default {
   margin: 10px 5px;
   padding: 10px 20px;
   background-color: #28a745;
-  color: #fff;
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .addOrder-button:enabled:hover {
-  background-color: #0056b3;
+  background-color: #357abd;
 }
 
 .buy-button:enabled:hover {
@@ -178,9 +176,9 @@ export default {
 }
 
 button:disabled {
-    background-color: #ddd;
-    cursor: not-allowed;
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+  color: #999;
 }
-
 
 </style>

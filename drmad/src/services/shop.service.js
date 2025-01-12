@@ -1,91 +1,59 @@
 import LocalSource from "@/datasource/controller";
 
-async function shopLoginFromLocalSource(data) {
-  // rÃ©cupÃ©ration auprÃ¨s de la source locale
+async function shopLoginFromLocal(data) {
   return LocalSource.shopLogin(data)
 }
-/*
-async function shopLoginFromAPI(data) {
-  // a ecrire quand l'API est fonctionnelle
-  return {}
-}
- */
 
-async function getAllVirusesFromLocalSource() {
-  // recuperation aupres de la source locale
+
+async function getAllVirusesFromlocal() {
   return LocalSource.getAllViruses()
 }
 
-/*
-async function getAllVirusesFromAPI() {
-  // a ecrire quand l'API est fonctionnelle
-  return {}
-}
-*/
 
-async function getBasketByIdFromLocalSource(id) {
-  // recuperation aupres de la source locale
+async function getBasketByIdFromLocal(id) {
   return LocalSource.getBasketById(id)
 }
 
-async function updateBasketByIdFromLocalSource(data) {
-  // recuperation aupres de la source locale
+async function updateBasketByIdFromLocal(data) {
   return LocalSource.updateBasketById(data)
 }
 
-async function addOrderByUserIdFromLocalSource(data) {
-  // recuperation aupres de la source locale
+async function addOrderByUserIdFromLocal(data) {
   return LocalSource.addOrderByUserId(data)
 }
 
+
+
+async function getOrdersByUserIdFromLocal(data) {
+  return LocalSource.getOrdersByUserId(data)
+}
+
 async function payOrders(data) {
-  // recuperation aupres de la source locale
   console.log("service")
   console.log(data)
   return LocalSource.payOrders(data)
 }
-
-async function getOrdersByUserIdFromLocalSource(data) {
-  // recuperation aupres de la source locale
-  return LocalSource.getOrdersByUserId(data)
-}
-
 async function shopLogin(data) {
   let response = null;
   try {
-    // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
-    response = await shopLoginFromLocalSource(data)
+    response = await shopLoginFromLocal(data)
   }
-  // NB: le catch n'aura lieu que pour des requÃªte vers l'API, s'il y a une erreur rÃ©seau
   catch (err) {
-    response = { error: 1, status: 404, data: 'erreur rÃ©seau, impossible de se loguer' }
+    response = { error: 1, status: 404, data: 'Erreur reseau, impossible de se loguer' }
   }
   return response
 }
 
 
-async function getAllViruses() {
-  let response = null;
-  try {
-    // changer la méthode appelee quand cette fonctionnalite de l'API est prete
-    response = await getAllVirusesFromLocalSource()
-  }
-  // NB: le catch n'aura lieu que pour des requete vers l'API, s'il y a une erreur reseau
-  catch (err) {
-    response = { error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des viruses' }
-  }
-  return response
-}
+
 
 async function getBasketById(id) {
   let response = null;
   try {
-    // changer la méthode appelee quand cette fonctionnalite de l'API est prete
-    response = await getBasketByIdFromLocalSource(id)
+    response = await getBasketByIdFromLocal(id)
   }
-  // NB: le catch n'aura lieu que pour des requete vers l'API, s'il y a une erreur reseau
   catch (err) {
-    response = { error: 1, status: 404, data: 'erreur reseau, impossible de rÃ©cupÃ©rer le panier' }
+    response = { error: 1, status: 404, data: 'impossible de rÃ©cupÃ©rer le panier' }
   }
   return response
 }
@@ -93,34 +61,36 @@ async function getBasketById(id) {
 async function updateBasketById(data) {
   let response = null;
   try {
-    // changer la méthode appelee quand cette fonctionnalite de l'API est prete
-    response = await updateBasketByIdFromLocalSource(data)
+    response = await updateBasketByIdFromLocal(data)
   }
-  // NB: le catch n'aura lieu que pour des requete vers l'API, s'il y a une erreur reseau
   catch (err) {
-    response = { error: 1, status: 404, data: 'erreur reseau, impossible de rÃ©cupÃ©rer le panier' }
+    response = { error: 1, status: 404, data: 'Erreur, impossible de rÃ©cupÃ©rer le panier' }
   }
   return response
 }
 
-async function cancelOrderByIdFromLocalSource(data) {
-  // recuperation aupres de la source locale
+async function getAllViruses() {
+  let response = null;
+  try {
+    response = await getAllVirusesFromlocal()
+  }
+  catch (err) {
+    response = { error: 1, status: 404, data: 'Erreur, impossible de rÃ©cupÃ©rer la liste des viruses' }
+  }
+  return response
+}
+async function cancelOrderByIdFromLocal(data) {
   return LocalSource.cancelOrderById(data)
 }
-
-
-
 
 async function addOrderByUserId(data) {
   let response = null;
   try {
-    // changer la méthode appelee quand cette fonctionnalite de l'API est prete
-    response = await addOrderByUserIdFromLocalSource(data)
+    response = await addOrderByUserIdFromLocal(data)
 
   }
-  // NB: le catch n'aura lieu que pour des requete vers l'API, s'il y a une erreur reseau
   catch (err) {
-    response = { error: 1, status: 404, data: 'erreur reseau, impossible de recuperer l\'uuid' }
+    response = { error: 1, status: 404, data: 'Erreur reseau, impossible de recuperer l\'uuid' }
   }
   return response
 }
@@ -130,12 +100,10 @@ async function addOrderByUserId(data) {
 async function getOrdersByUserId(data) {
   let response = null;
   try {
-    // changer la méthode appelee quand cette fonctionnalite de l'API est prete
-    response = await getOrdersByUserIdFromLocalSource(data)
+    response = await getOrdersByUserIdFromLocal(data)
   }
-  // NB: le catch n'aura lieu que pour des requete vers l'API, s'il y a une erreur reseau
   catch (err) {
-    response = { error: 1, status: 404, data: 'erreur reseau, impossible de recuperer les commandes' }
+    response = { error: 1, status: 404, data: 'Erreur reseau, impossible de recuperer les commandes' }
   }
   return response
 }
@@ -143,10 +111,8 @@ async function getOrdersByUserId(data) {
 async function cancelOrderById(data) {
   let response = null;
   try {
-    // changer la méthode appelee quand cette fonctionnalite de l'API est prete
-    response = await cancelOrderByIdFromLocalSource(data)
+    response = await cancelOrderByIdFromLocal(data)
   }
-  // NB: le catch n'aura lieu que pour des requete vers l'API, s'il y a une erreur reseau
   catch (err) {
     response = { error: 1, status: 404, data: 'erreur reseau, impossible de recuperer la commande' }
   }
